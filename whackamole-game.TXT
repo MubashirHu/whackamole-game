@@ -1,0 +1,108 @@
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Mubashir Hussain 
+200396797
+12/08/2020
+Whack-A-Mole Term project
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Questions:
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+1. What the game is
+--------------------------------------------------
+	What whack a mole game is pretty much that there are random moles that pop out of holes and the goal is to whack them before they enter back into their hole. So with respect to 
+	this project, the moles can be represented by the LED's and the action of whacking them can be represented by pressing the corresponding button to the LED before a timer ends.
+	So basically, it is a game where you must hit something before it disappears.
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2. How to play
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	i) When you first power the board the LED's will be moving back and forth and this is the moment where the board is waiting for response of the user. So in order to
+	to start the game any button must be pressed.
+
+	ii) Once the button has been pressed, there will be a brief moment to let the user prepare for the game to start.
+
+	iii) once the brief moment has passed a random mole (LED) will pop up and the user must whack it (press a button) before it disappears otherwise the game ends and the user fails.
+
+	iii) with each successful press of the correct button the difficulty increases so with each cycle the game becomes harder. Once all the levels are passed then the LEDS will flash ON and OFF 
+	for a defined time. Once the LED's are flashing the LED's all 4 of the LED's will stay on which shows the users proficiency level, 4/4 leds meaning the user got a 100% on the game performance.
+	After this, then the LED's will turn on and off like in step i), waiting for a user response to have another attempt at the game.
+
+	iv) If the user per chance fails to press the correct button or doesn't react fast enough, then the wack a mole game will show the score of the user from 0 to 15 in binary.
+	After this, then the LED's will turn on and off like in step i), waiting for a user response to have another attempt at the game. 
+
+	Note: Overall these are all the implementations in this project and that is how to play the game.
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+3. Any information about problems encountered, features you failed to implement, extra featuresyou implemented beyond the basic requirements, possible future expansion, etc.
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Problems encountered:
+---------------------
+
+	i) I had a very hard time setting up the I/O for this project as I was not very comfortable looking through the datasheet of the STM32 board as there was a lot of information to filter 
+	through. I failed to implement the I/O to how Trevor had done in lab 7 as it was too complicated for my understanding, although it is a better approach.
+	
+	What I did: In lab 7, Trevor had shown that it was more effective to use the EOR instruction to define the output and inputs of the board because it allowed the code to be more expandable
+	but the more time I spent time on this project I found it was easier to do it the way that he had defined in lab 6. Which was that you can CMP the status of the ODR and IDR directly to 
+	what it would like if it was pressed or released by using the CMP instruction. Which I found got the job done for me with respect to this project but was not the best expandable solution.
+
+	ii) The random number generator was very difficult as it was a new concept for me to understand in how I would implement it in assembly language. Most of the resources that I found online 
+	kept mentioning that there were specific instructions built in which I couldn't determine for this board. An alternate strategy that I found online was to create a random number through
+	the microcontrollers internal clock. Which I spent a lot of time on and could not determine as once again going through the datasheet made it difficult. Mainly because there were so many
+	various types of clocks inside this STM32 board, both internal and external.
+	
+	What I did: To counter this, What I did was to use the randomness of the user itself. In that the time that the user has defined to react to pressing a button is very random and can not be
+	determined. So what I did was that I modulated the value of the time it took for the user to respond to pressing the correct button. This dealt with the problem of me creating a 
+	random number generator because I couldn't determine how to use the system clock as well as the simplicity of it as well.
+	
+	iii) I found that one of the problems that I kept running into was actually keeping track of the registers I was using as I progressed on the project. The reason for this is that I do not 
+	have a strong understanding of the push and pop instructions which would allow for more effective use of the registers as the values can remain the same from the begining of the sub routine
+	to the end. 
+
+	What I did: In order to deal with this, what I did was that I documented what registers I was using before I actually implemented on a subroutine. Although this worked for me and is a good
+	practice for documentation purposes, I ran into many issues while debugging as I could not keep track of the register that I was using. So that was pretty much the issue, i had problems 
+	using the push and pop instructions.
+
+Features failed to implement:
+-----------------------------
+
+	i) One main thing of the project that I couldnt implement ON the board was to change the settings of the game itself. By that I mean the settings that are mentioned in 4. of this textfile.
+	Although I did have a strategy on how I would implement it I could not do so with the remaining time that I had. 
+
+		if interested in how I would implement it:
+			I was thinking that while the game was USE CASE 2 instead of the user input taking the game to USE CASE 3 directly it would branch to a subroutine where there will be a 
+			series of functions on what parameters the user would want for himself. While in these selections, each button would represent a specific value for each of the settings 
+			defined in 4. of this text file. 
+
+	Note: besides this, I have succesfully implemented all of the other requirements of this project.
+			
+
+Extra features you implemented beyond the basic requirements:
+-------------------------------------------------------------
+	
+	i) One extra feature that i implemented in this project was very minute yet kept the game interesting. But I would like to mention that it is very similar to what is defined in the project 
+	description.
+	
+	I created a DecrementAmount setting. The purpose of this setting is simply that the user can define how much he/she wants the ReactTime to decrease by with the increase of NumCycles rather then
+	it decreasing by a specific amount each time.
+
+
+Possible future expansion:
+--------------------------
+
+	i) Obviously one that comes to mind is to make the game more challenging by adding more LED's and having more 'moles' to pop up which would make the game more interesting.
+	Also, by adding more LED's it allows to interface of the game to look more interesting and provides various methods to show the score of the user as well as allow to change the 
+	settings more effectively.
+
+	ii) Like I mentioned earlier one of the things that I was interested in making on board was to create an option for the user to change the options directly on the board, rather then going
+	to the actual assembly code.
+
+	iii) maybe perhaps inplement some of the 384 digital electronics concepts learned to create a real visible timer for the user to see while he plays the game to allow the game to appear more 
+	clean.
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+4.  How the user can adjust the game parameters, 
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+including:
+(a) PrelimWait:  at the beginning of a cycle, the time to wait before lighting a LED
+(b) ReactTime, the time allowed for the user to press the correct button to avoid terminatingthe game.
+(c)  The number of cycles in a game:NumCycles
+(d)  values ofWinningSignalTimeandLosingSignalTime.
+
+ i)The user can change any of these game parameters through my assembly code on lines 35 to 40.
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
